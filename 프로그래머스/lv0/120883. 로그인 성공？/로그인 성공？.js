@@ -4,9 +4,8 @@ function solution(id_pw, db) {
     // 아이디 일치, 비번 불일치 => 'wrong pw'
     
     const [id, pw] = id_pw;
-    const matchID = db.filter((item) => item[0] === id);
-    if (matchID.length === 0) return 'fail';
-    else {
-        return matchID.filter((item) => item[1] === pw).length === 0 ? 'wrong pw' : 'login';
-    }
+    const mapObj = new Map(db);
+    
+    // mapObj = Map(3) { 'rardss' => '123', 'yyoom' => '1234', 'meosseugi' => '1234', __proto__: {...} }
+    return mapObj.has(id) ? (mapObj.get(id) === pw ? 'login' : 'wrong pw') : 'fail';
 }
