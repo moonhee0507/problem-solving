@@ -1,19 +1,15 @@
-function solution(A, B) {
-    if (A === B) return 0;
-    // A를 밀어서 B를 만들 수 있는가? No => -1, Yes => 몇번
-    // A를 밀어서 만들 수 있는 모든 문자 구하기
-    const array = [];
-    let arrayStr = A.split('') // ['h', 'e', 'l', 'l', 'o']
+function solution(A, B) {    
+    const temp = (A + A).split(''); // ['h', 'e', 'l', 'l', 'o', 'h', 'e', 'l', 'l', 'o']
     
-    for (let i = 0; i < A.length; i++) {
-        arrayStr.unshift(...arrayStr.slice(-1));
-        arrayStr.pop();
-        array.push(arrayStr.join(''))
+    let i = 0;
+    while (i < [...temp].length) {
+        //                          v
+        // ['h', 'e', 'l', 'l', 'o', 'h', 'e', 'l', 'l', 'o']
+        if (temp.slice(0 - A.length).join('') === B) {
+            return i;
+        }
+        temp.pop();
+        i++;
     }
-    
-    // array = ["ohell","lohel","llohe","elloh","hello"]
-    
-    if (array.filter((item) => item === B).length) {
-        return array.indexOf(B) + 1;
-    } else return -1;
+    return -1;
 }
