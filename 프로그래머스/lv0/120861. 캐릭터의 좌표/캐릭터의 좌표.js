@@ -1,18 +1,42 @@
-function solution(keyinput, board) {    
-    let [x, y] = [0, 0];
-    const [xLimit, yLimit] = [Math.trunc(board[0] / 2), Math.trunc(board[1] / 2)];
+function solution(keyinput, board) {
+    // ['left', 'right', 'up', 'right', 'right']
+    //     i
+    // keyinput[i]가 'left'면 x--;
     
-    keyinput.map((dir) => {
-        if (dir === 'left' || dir === 'right') {
-            dir === 'left' ? --x : ++x;
-            x < 0 ? x = Math.max(x, -xLimit) : x = Math.min(x, xLimit);
+    let [x, y] = [0, 0];
+    let i = 0;
+    
+    while (i < keyinput.length) {
+        if (keyinput[i] === 'left') {
+            x--;
+            if (Math.abs(x) > Math.trunc(board[0] / 2)) {
+                x++;
+            }
+        }
+
+        if (keyinput[i] === 'right') {
+            x++;
+            if (Math.abs(x) > Math.trunc(board[0] / 2)) {
+                x--;
+            }
         }
         
-        if (dir === 'up' || dir === 'down') {
-            dir === 'up' ? ++y : --y;
-            y < 0 ? y = Math.max(y, -yLimit) : y = Math.min(y, yLimit);
+        if (keyinput[i] === 'down') {
+            y--;
+            if (Math.abs(y) > Math.trunc(board[1] / 2)) {
+                y++;
+            }
         }
-    })
+        
+        if (keyinput[i] === 'up') {
+            y++;
+            if (Math.abs(y) > Math.trunc(board[1] / 2)) {
+                y--;
+            }
+        }
+
+        i++;   
+    }
     
     return [x, y];
 }
