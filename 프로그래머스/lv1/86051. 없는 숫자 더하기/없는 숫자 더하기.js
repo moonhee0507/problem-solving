@@ -3,11 +3,10 @@ function solution(numbers) {
     let answer = 0;
     
     while (n < 10) {
-        if (numbers.includes(n)) n++;
-        else {
+        if (!numbers.includes(n)) {
             answer += n;
-            n++;
         }
+        n++;
     }
     
     return answer;
