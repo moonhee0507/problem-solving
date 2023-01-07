@@ -1,11 +1,11 @@
 function solution(n, arr1, arr2) {
-    // 10진수 -> 2진수
-    arr1 = arr1.map((num) => num.toString(2));
-    arr2 = arr2.map((num) => num.toString(2));
+    // 10진수 -> 2진수 -> n자리수
+    const decode = (arr) => {
+        return arr.map((num) => '0'.repeat(n - num.toString(2).length) + num.toString(2));
+    };
     
-    // n자리 수로 만들기
-    arr1 = arr1.map((binary) => '0'.repeat(n - binary.length) + binary);
-    arr2 = arr2.map((binary) => '0'.repeat(n - binary.length) + binary);
+    arr1 = decode(arr1);
+    arr2 = decode(arr2);
     
     const resolveData = {
         '00': ' ',
@@ -18,11 +18,9 @@ function solution(n, arr1, arr2) {
     
     for (let i = 0; i < n; i++) {
         let temp = '';
-        
         for (let j = 0; j < n; j++) {
             temp += resolveData[arr1[i][j] + arr2[i][j]];
         }
-        
         answer.push(temp);
     }
     
