@@ -1,60 +1,41 @@
 function solution(numbers, hand) {
-    //                  0     1    2     3    4    5     6    7    8     9    *     0     #
     const whichHand = [null, 'L', null, 'R', 'L', null, 'R', 'L', null, 'R', null, null, null];
-    
-    let leftPointer = 10;
-    let rightPointer = 12;
+    //                  0     1    2     3    4    5     6    7    8     9    *     0     #
+    let leftPointer = 10; let rightPointer = 12;
     
     let answer = '';
     
     for (let i = 0; i < numbers.length; i++) {
-        if (whichHand[numbers[i]] !== null) {
+        if (whichHand[numbers[i]]) {
             answer += whichHand[numbers[i]];
             whichHand[numbers[i]] === 'L' ? leftPointer = numbers[i] : rightPointer = numbers[i];
         } else {
-            if (numbers[i] === 0) {
-                const distanceFromLeft = realDistance(Math.abs(11 - leftPointer));
-                const distanceFromRight = realDistance(Math.abs(11 - rightPointer));
-              
-                if (distanceFromLeft < distanceFromRight) {
+            const indexZeroToEleven = numbers[i] === 0 ? 11 : numbers[i];
+            const distanceFromLeft = realDistance(Math.abs(indexZeroToEleven - leftPointer));
+            const distanceFromRight = realDistance(Math.abs(indexZeroToEleven - rightPointer));
+
+            const distance = {
+                leftIsCloser() {
                     answer += 'L';
-                    leftPointer = 11;
-                } else if (distanceFromLeft > distanceFromRight) {
+                    leftPointer = indexZeroToEleven;
+                },
+                rightIsCloser() {
                     answer += 'R';
-                    rightPointer = 11;
-                } else {
-                    if (hand === 'left') {
-                        answer += 'L';
-                        leftPointer = 11;
-                    }
-                    else if (hand === 'right') {
-                        answer += 'R';
-                        rightPointer = 11;
-                    }
-                }
-            } else {
-                const distanceFromLeft = realDistance(Math.abs(numbers[i] - leftPointer));
-                const distanceFromRight = realDistance(Math.abs(numbers[i] - rightPointer));
-              
-                if (distanceFromLeft < distanceFromRight) {
-                    answer += 'L';
-                    leftPointer = numbers[i];
-                } else if (distanceFromLeft > distanceFromRight) {
-                    answer += 'R';
-                    rightPointer = numbers[i];
-                } else {
-                    if (hand === 'left') {
-                        answer += 'L';
-                        leftPointer = numbers[i];
-                    }
-                    else if (hand === 'right') {
-                        answer += 'R';
-                        rightPointer = numbers[i];
-                    }
+                    rightPointer = indexZeroToEleven;
                 }
             }
             
-            
+            switch (Math.sign(distanceFromLeft - distanceFromRight)) {
+                case -1:
+                    distance.leftIsCloser();
+                    break;
+                case 1:
+                    distance.rightIsCloser();
+                    break;
+                case 0:
+                    hand === 'left' ? distance.leftIsCloser() : distance.rightIsCloser();
+                    break;
+            }
         }
     }
     
