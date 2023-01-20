@@ -1,58 +1,22 @@
 function solution(today, terms, privacies) {
-    terms = terms.map(v => v.split(' '));
+  const answer = [];
+  [year, month, day] = today.split('.').map(Number);
     
-    const termsObj = {};
-    for (let values of terms) {
-        termsObj[values[0]] = Number(values[1]);
-    }
+  const todayNum = year * 12 * 28 + month * 28 + day;
+  const termObj = {};
     
-    privacies = privacies.map(v => v.split(' ')).map(w => w.map((x, i) => {
-        if (i === 1) return termsObj[x];
-        else return x;
-    }));
+  terms.forEach((v) => {
+    let [a, b] = v.split(" ");
+    termObj[a] = Number(b);
+  });
     
-    today = today.replaceAll('.', '');
+  privacies.forEach((v, i) => {
+    [day, term] = v.split(" ");
+    day = day.split(".").map(Number);
+      
+    const dates = day[0] * 12 * 28 + day[1] * 28 + day[2] + termObj[term] * 28;
+    if (dates <= todayNum) answer.push(i + 1);
+  });
     
-    for (let i = 0; i < privacies.length; i++) {
-        const expired = afterNMonth(privacies[i][0], privacies[i][1]);
-        if (today.localeCompare(expired) === 1 ) privacies[i] = i + 1;
-        else privacies[i] = false;
-    }
-
-    return privacies.filter(v => v);
-}
-
-function afterNMonth(date, n) {
-    [yearC, monthC, dayC] = date.split('.').map(v => Number(v));
-    
-    dayC += n * 28 - 1;
-
-    if (dayC > 28) {
-        monthC += Math.trunc(dayC / 28);
-        dayC = dayC % 28;
-    }
-    if (monthC > 12) {
-        yearC += Math.trunc(monthC / 12);
-        monthC = monthC % 12;
-    } 
-    if (dayC === 0) {
-        dayC = 28;
-        monthC--;
-    }
-    if (monthC === 0) {
-        monthC = 12;
-        yearC--;
-    }
-    if (monthC === 0) {
-        yearC--;
-        monthC = 12;
-    }
-   
-    yearC = String(yearC);
-    if (String(monthC).length === 1) monthC = '0' + String(monthC);
-    if (String(dayC).length === 1) dayC = '0' + String(dayC);
-
-    
- 
-    return yearC + monthC + dayC;
+  return answer;
 }
