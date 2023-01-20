@@ -15,7 +15,6 @@ function solution(today, terms, privacies) {
     
     for (let i = 0; i < privacies.length; i++) {
         const expired = afterNMonth(privacies[i][0], privacies[i][1]);
-        console.log(expired)
         if (today.localeCompare(expired) === 1 ) privacies[i] = i + 1;
         else privacies[i] = false;
     }
@@ -31,23 +30,19 @@ function afterNMonth(date, n) {
     if (dayC > 28) {
         monthC += Math.trunc(dayC / 28);
         dayC = dayC % 28;
-        
-        if (monthC > 12) {
-            yearC += Math.trunc(monthC / 12);
-            monthC = monthC % 12;
-        } 
-        
-        if (dayC === 0) {
-            dayC = 28;
-            monthC--;
-            
-            if (monthC === 0) {
-                monthC = 12;
-                yearC--;
-            }
-        }
     }
-    
+    if (monthC > 12) {
+        yearC += Math.trunc(monthC / 12);
+        monthC = monthC % 12;
+    } 
+    if (dayC === 0) {
+        dayC = 28;
+        monthC--;
+    }
+    if (monthC === 0) {
+        monthC = 12;
+        yearC--;
+    }
     if (monthC === 0) {
         yearC--;
         monthC = 12;
