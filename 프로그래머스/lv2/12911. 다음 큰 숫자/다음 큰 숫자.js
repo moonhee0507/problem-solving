@@ -1,9 +1,9 @@
 function solution(n) {
     let answer = 0;
     let test = n + 1;
-    
+    const countOne = (num) => num.toString(2).replace(/0/g, '');
     while (true) {
-        if (test.toString(2).replace(/0/g, '').length === n.toString(2).replace(/0/g, '').length) {
+        if (countOne(test) === countOne(n)) {
             answer = test;
             break;
         } else test++;
