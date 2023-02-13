@@ -1,19 +1,35 @@
 function solution(n, l, r) {
   let answer = 0;
+  // 비트열 구간
   let memo = Array(r - l + 1).fill().map((_, i) => i + l);
+  // 0에 해당하는 숫자들: 3, 8, 11, 12, 13, 14, 15, 18, 23, ... => 규칙을 구해서 풀어야 시간초과 안남
   // console.log(memo); //[ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ]
+  //              1-1.      1, 2, 3, 4, x, 1,  2,  3,  4,  x,  1,  2,  3,  4
+  //              2-1.      1  1  2  2     2   2   3   3       3   3   4   4  <- 결과 순회를 반복한다
   
+  //             push       v  v
+  //             momo       1  1  2  2  2  2  3  3  3  3  4  4
+  //              1-2.            4  4  4  4  x  x  x  x  1  1
+  //              2-2.            1  1  1  1              1  1
+  
+  //             push       v  v  v  v  v  v
+  //             memo       1  1  1  1  1  1
+  
+  // 11011에서 3번째가 0이기 때문에 제외
   if (n === 1) return memo.filter(v => v !== 3).length;
   
   while (memo.length) {
-    const newMemo = [];
+    const newMemo = []; // 2.가 들어감
     
+    // memo의 원소를 순회
     for (const el of memo) {
+      // 원소가 1이면 answer에 +1 처리하고
       if (el === 1) answer += 1;
-      else {
+      else { // 1이 아니면
+        // 1. (원소 + 2)를 5로 나눈 나머지가 0이 아닌 경우 그 원소를 5로 나눈 몫의 반올림을 newMemo에 푸시
         if (!!((el + 2) % 5)) {
-          const fixedEl = Math.ceil(el / 5);
-          newMemo.push(fixedEl);
+          const fixedEl = Math.ceil(el / 5); // 2. 원소를 5로 나눈 몫의 올림처리
+          newMemo.push(fixedEl); // newMemo에 푸시
         }
       }
     }
@@ -23,3 +39,7 @@ function solution(n, l, r) {
   
   return answer;
 }
+
+solution(1, 1, 3); // 2
+solution(2, 4, 17); // 8
+solution(3, 1, 3); // [1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, ]
