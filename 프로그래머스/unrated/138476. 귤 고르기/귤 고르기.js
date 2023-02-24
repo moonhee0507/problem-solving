@@ -2,7 +2,7 @@ function solution(k, tangerine) {
     const obj = new Object;
     
     for (let size of tangerine) {
-        obj[size] = obj[size] === undefined ? 1 : ++obj[size];
+        obj[size] = ++obj[size] || 1;
     }
     
     const entry = Object.values(obj).sort((a, b) => b - a);
