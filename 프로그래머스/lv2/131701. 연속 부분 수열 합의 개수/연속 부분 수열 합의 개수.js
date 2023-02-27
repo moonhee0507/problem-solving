@@ -2,11 +2,11 @@ function solution(elements) {
     const newArray = elements.concat(elements);
     
     let len = 1;
-    let answer = [];
+    let answer = new Set;
     
     for (let i = 0; i < elements.length; i++) {
         let sum = newArray.slice(i, i + len).reduce((prev, curr) => prev + curr, 0);
-        answer.push(sum);
+        answer.add(sum);
         
         if (len < elements.length) {
             if (i === elements.length - 1) {
@@ -16,5 +16,5 @@ function solution(elements) {
         }
     }
     
-    return [...new Set(answer)].length;
+    return answer.size;
 }
