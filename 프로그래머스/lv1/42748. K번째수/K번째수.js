@@ -1,6 +1,12 @@
 function solution(array, commands) {
-    return commands.map((command) => {
-        [i, j, k] = command;
-        return [...array].splice(i-1, j-i+1).sort((a, b) => a - b)[k-1];
+    const answer = [];
+    
+    commands.forEach((command) => {
+        const [i, j, k] = command;
+        const arrCutAndSort = array.slice(i - 1, j).sort((a, b) => a - b);
+        
+        answer.push(arrCutAndSort[k-1]);
     })
+    
+    return answer;
 }
