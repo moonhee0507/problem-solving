@@ -1,23 +1,30 @@
 function solution(answers) {
-    let answer = [];
+    const totalProblem = answers.length;
     
-    const supo1 = [1, 2, 3, 4, 5];
-    const supo2 = [2, 1, 2, 3, 2, 4, 2, 5];
-    const supo3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5];
+    const person1 = "12345".repeat(Math.ceil(totalProblem / 5));
+    const person2 = "21232425".repeat(Math.ceil(totalProblem / 8));
+    const person3 = "3311224455".repeat(Math.ceil(totalProblem / 10));
     
-    let score = [0, 0, 0];
+    const arrPerson = [person1, person2, person3];
     
-    for (let i = 0; i < answers.length; i++) {
-        if (answers[i] === supo1[i % supo1.length]) score[0]++;
-        if (answers[i] === supo2[i % supo2.length]) score[1]++;
-        if (answers[i] === supo3[i % supo3.length]) score[2]++;
+    const arrGrade = [];
+    
+    for (let p of arrPerson) {
+        let count = 0;
+        
+        answers.forEach((answer, i) => {
+            if (answer === Number(p[i])) ++count;
+        });
+        
+        arrGrade.push(count);
     }
     
-    const max = Math.max(...score);
+    const numMax = Math.max(...arrGrade);
     
-    for (let i = 0; i < score.length; i++) {
-        if (max === score[i]) answer.push(i+1);
-    }
+    const result = [];
+    arrGrade.forEach((grade, i) => {
+        if (grade === numMax) result.push(i + 1);
+    })
     
-    return answer;
+    return result;
 }
