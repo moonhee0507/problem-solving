@@ -1,10 +1,8 @@
 function solution(sizes) {    
-    // [w, h]을 큰값-작은값으로 정렬
-    sizes = sizes.map((item) => item.sort((a, b) => b - a));
+    const newSizes = sizes.map((size) => size.sort((a, b) => b - a));
     
-    // w, h별 max 값 추출
-    const w = sizes.map((item) => item[0]);
-    const h = sizes.map((item) => item[1]);
+    const arrNum1 = newSizes.map(([num1, num2]) => num1);
+    const arrNum2 = newSizes.map(([num1, num2]) => num2);
     
-    return Math.max(...w) * Math.max(...h);
+    return Math.max(...arrNum1) * Math.max(...arrNum2);
 }
